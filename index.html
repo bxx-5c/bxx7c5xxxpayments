@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Digital - OVO, DANA, QRIS, GoPay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .payment-option {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-right: 15px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px;
+        }
+
+        .payment-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .payment-details {
+            flex-grow: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .payment-number {
+            font-size: 16px;
+            opacity: 0.9;
+            word-break: break-all;
+        }
+
+        .qris-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .qris-code {
+            width: 200px;
+            height: 200px;
+            margin: 15px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .qris-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .audio-control:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .audio-control i {
+            font-size: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .payment-option {
+                padding: 15px;
+            }
+            
+            .payment-logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .qris-code {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="https://files.catbox.moe/cb8a55.png" alt="Logo Pemilik">
+            </div>
+        </div>
+        
+        <h1>Pembayaran Digital</h1>
+        <p class="subtitle">Pilih metode pembayaran yang Anda inginkan</p>
+        
+        <div class="payment-options">
+            <div class="payment-option" onclick="copyToClipboard('08983640682', 'DANA')">
+                <div class="payment-logo">
+                    <img src="https://files.catbox.moe/wdergg.jpeg" alt="Logo DANA">
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">DANA</div>
+                    <div class="payment-number">08983640682</div>
+                </div>
+            </div>
+            
+            <div class="payment-option" onclick="copyToClipboard('08983640582', 'OVO')">
+                <div class="payment-logo">
+                    <img src="https://files.catbox.moe/qe8bqy.png" alt="Logo OVO">
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">OVO</div>
+                    <div class="payment-number">08983640582</div>
+                </div>
+            </div>
+            
+            <div class="payment-option" onclick="copyToClipboard('08983640582', 'GoPay')">
+                <div class="payment-logo">
+                    <img src="https://files.catbox.moe/g2i070.jpeg" alt="Logo GoPay">
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">GoPay</div>
+                    <div class="payment-number">08983640582</div>
+                </div>
+            </div>
+            
+            <div class="payment-option">
+                <div class="payment-logo">
+                    <img src="https://files.catbox.moe/xg20bf.png" alt="Logo QRIS">
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">QRIS</div>
+                    <div class="qris-container">
+                        <div class="qris-code">
+                            <img src="https://files.catbox.moe/44p2m4.jpg" alt="Kode QRIS">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Terima kasih atas pembayaran Anda
+        </div>
+    </div>
+    
+    <div class="audio-control" onclick="toggleAudio()">
+        <i>♪</i>
+    </div>
+    
+    <audio id="background-music" loop>
+        <source src="https://files.catbox.moe/66mdmj.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+    
+    <script>
+        // Autoplay musik saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const audio = document.getElementById('background-music');
+            audio.volume = 0.5; // Set volume ke 50%
+            
+            // Coba autoplay, jika gagal karena kebijakan browser, tunggu interaksi pengguna
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Autoplay berhasil
+                }).catch(error => {
+                    // Autoplay gagal, tunggu interaksi pengguna
+                    document.body.addEventListener('click', function() {
+                        audio.play();
+                    }, { once: true });
+                });
+            }
+        });
+        
+        // Fungsi untuk toggle audio
+        function toggleAudio() {
+            const audio = document.getElementById('background-music');
+            const audioControl = document.querySelector('.audio-control i');
+            
+            if (audio.paused) {
+                audio.play();
+                audioControl.textContent = '♪';
+            } else {
+                audio.pause();
+                audioControl.textContent = '♪';
+            }
+        }
+        
+        // Fungsi untuk menyalin nomor ke clipboard
+        function copyToClipboard(number, method) {
+            navigator.clipboard.writeText(number).then(function() {
+                alert(`Nomor ${method} (${number}) berhasil disalin ke clipboard!`);
+            }, function(err) {
+                console.error('Gagal menyalin teks: ', err);
+                // Fallback untuk browser lama
+                const textArea = document.createElement("textarea");
+                textArea.value = number;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert(`Nomor ${method} (${number}) berhasil disalin ke clipboard!`);
+            });
+        }
+    </script>
+</body>
+</html>
